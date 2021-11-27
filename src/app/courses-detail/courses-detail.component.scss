@@ -1,0 +1,50 @@
+.assignment {
+    color:black;
+    &.assignScore {
+        color: #555;
+        font-size: medium;
+        &:before {
+            content: '\00a0';
+            margin-left: 8px;
+        }
+    }
+}
+
+.backButton > * {
+    color:black;
+}
+
+.summaryName {
+    font-size: xx-large;
+    font-weight: 600;
+}
+
+.summaryScore {
+    font-size: large;
+    font-weight: 500;
+}
+
+.inline-input {
+    display: inline;
+    width: 10%;
+    min-width: 0;
+}
+
+.add-button {
+    width: auto;
+    height: 24px;
+    padding: 0px;
+    cursor: pointer;
+    &:hover {
+        filter: invert(78%) sepia(89%) saturate(736%) hue-rotate(56deg) brightness(98%) contrast(87%);
+    }
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none;
+}

@@ -1,0 +1,27 @@
+.assignment {
+    color:black;
+    &.assignScore {
+        color: #555;
+        font-size: medium;
+    }
+}
+
+:host {
+    &:hover {
+        &>td>.deleteButton {
+            display: inline-block;
+        }
+    }
+}
+
+.deleteButton {
+    width: auto;
+    height: 20px;
+    padding-left: 16px;
+    cursor: pointer;
+
+    &:hover {
+        // ~#FA3333
+        filter: invert(36%) sepia(75%) saturate(4616%) hue-rotate(343deg) brightness(102%) contrast(97%); 
+    }
+}

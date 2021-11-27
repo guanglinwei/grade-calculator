@@ -1,0 +1,62 @@
+<div class="backButton container mt-2 mb-3"><a routerLink="/courses">Back</a></div>
+
+<div *ngIf="currentCourse" class="container">
+    <div class="row courseSummary">
+        <div class="summaryHeader">
+            <span class="summaryName">{{currentCourse.name}} - </span>
+            <span class="px-3 summaryScore">{{currentCourse.points | percentDisplay: currentCourse.totalPoints}}</span>
+            <!-- <span class="px-3 summaryScore">{{(100 * currentCourse.points / currentCourse.totalPoints).toFixed(2)}}</span> -->
+            <span class="summaryFraction">{{currentCourse.points}} / {{currentCourse.totalPoints}}</span> 
+        </div>
+        <div class="card-group summaryBody">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title" id="pts-to-target">{{ptsToTarget}}</h4>
+                    <span class="card-text">Points required for average of 
+                        <input class="form-control inline-input" id="to-target-score" (input)="updateSummaryValues($event)" placeholder="93"/>
+                         if missing
+                        <input class="form-control inline-input" id="to-target-missing" (input)="updateSummaryValues($event)" placeholder="0"/>
+                        more points
+                    </span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title" id="pts-to-target-given-remaining">{{ptsToTargetGivenRemaining}}</h4>
+                    <span class="card-text">Points required for average of 
+                        <input class="form-control inline-input" id="to-target-given-score" (input)="updateSummaryValues($event)" placeholder="93"/>
+                         if 
+                        <input class="form-control inline-input" id="to-target-given-remaining" (input)="updateSummaryValues($event)" placeholder="100"/>
+                         more points left
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th style="width: 60%">Assignment</th>
+                    <th style="width: 25%">Score</th>
+                    <th style="width: 15%">% of Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let assignment of currentCourse.getAssignmentList(); let i = index" [attr.data-index]="i"
+                    class="deletable" 
+                    app-assignment 
+                    [assignment]="assignment" 
+                    [index]="i"
+                    (updateCoursesSummary)="updateSummary($event)">
+                </tr>
+                <div class="my-3 d-flex align-items-center">
+                    <img (click)="createAssignment()" src="../../assets/add.svg" class="add-button"/>
+                    <span class="no-select">Add a new assignment</span>
+                </div>
+            </tbody>
+        </table>
+    </div>
+</div>

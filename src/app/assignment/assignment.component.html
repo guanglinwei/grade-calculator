@@ -1,0 +1,16 @@
+<td><input class="assignment assignName form-control" [value]="assignment.name" (input)="setAssignmentValue($event, assignment)"/></td>
+<td class="input-group">
+    <div class="input-group-prepend">
+        <span class="assignment assignScore input-group-text" id="percentage-addon">{{assignment.earnedPoints | percentDisplay: assignment.totalPoints}}</span>
+    </div>
+    <input class="assignment assignFraction form-control"
+        value="{{assignment.earnedPoints}}/{{assignment.totalPoints}}"
+        (input)="setAssignmentValue($event, assignment)"
+        placeholder="score / total"
+        aria-describedby="percentage-addon"/>
+    
+</td>
+<td>
+    <span class="assignment assignPercent">{{getCurrentCourse() ? (assignment.totalPoints | percentDisplay: getCurrentCourse().totalPoints) : "-"}}</span>
+    <img (click)="deleteAssignment(index)" src="../../assets/delete.svg" class="deleteButton float-end"/>
+</td>

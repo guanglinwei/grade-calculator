@@ -1,0 +1,67 @@
+span {
+    color: #000;
+}
+.coursePoints {
+    color: #555;
+    font-size: medium;
+    &:before {
+        content: '\00a0';
+        margin-left: 8px;
+    }
+}
+
+table {
+    border-spacing: 0;
+}
+
+.courseRow {
+    cursor: pointer;
+}
+
+.delete-image {
+    width: auto;
+    height: 20px;
+    padding-left: 16px;
+    cursor: pointer;
+
+    
+}
+
+.delete-button {
+    &:hover > .delete-image {
+        // ~#FA3333
+        filter: invert(36%) sepia(75%) saturate(4616%) hue-rotate(343deg) brightness(102%) contrast(97%); 
+    }
+}
+
+.visible {
+    display: block;
+}
+
+#deleteConfirmModal:after {
+    // darken background when visible
+    position: absolute;
+    top: 0; bottom: 0; right: 0; left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    content: '';
+    z-index: -1;
+}
+
+.add-button {
+    width: auto;
+    height: 24px;
+    padding: 0px;
+    cursor: pointer;
+    &:hover {
+        filter: invert(78%) sepia(89%) saturate(736%) hue-rotate(56deg) brightness(98%) contrast(87%);
+    }
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none;
+}

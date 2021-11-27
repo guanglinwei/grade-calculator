@@ -32,7 +32,7 @@ export class CoursesService {
         return new Promise((resolve) => {
             // console.log(localStorage.getItem("gradeData"));
             const json = JSON.parse(localStorage.getItem("gradeData") || "{}").courses;
-            for(const v of json) {
+            if(json) for(const v of json) {
                 this.courses.push(new Course(v.name, v.assignmentList));
             }
             // console.log(this.courses);

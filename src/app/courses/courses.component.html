@@ -23,17 +23,25 @@
             <thead class="thead-light">
                 <tr>
                     <th>Course Name</th>
+                    <th></th>
                     <th>Average</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr *ngFor="let course of courses; let i = index;" [attr.data-index]="i" (click)="redirectToDetail(i)" class="courseRow">
-                    <td><span class="courseName">{{course.name}}</span></td>
-                    <td>
+                    <td class="col-4">
+                        <input class="courseName form-control"
+                            value="{{course.name}}"
+                            (input)="setCourseName($event, i);"
+                            (click)="$event.stopPropagation();"
+                            placeholder="Course Name"/>
+                    </td>
+                    <td class="col-2"></td>
+                    <td class="col-6 align-items-center">
                         <span class="courseAverage">{{course.average}}</span> <span class="coursePoints">{{course.points}}/{{course.totalPoints}}</span>
                         <button (click)="deleteCourse(i); $event.stopPropagation();" class="float-end delete-button" style="border:0; background:transparent;">
-                            <img src="../../assets/delete.svg" class="delete-image float-end"/>
+                            <img src="assets/delete.svg" class="delete-image float-end"/>
                         </button>
                     </td>
                 </tr>
@@ -49,7 +57,7 @@
     </ng-template>
 
     <div class="my-3 d-flex align-items-center">
-        <img (click)="addCourse()" src="../../assets/add.svg" class="add-button"/>
+        <img (click)="addCourse()" src="assets/add.svg" class="add-button"/>
         <span class="no-select mx-2">Add a new course</span>
     </div>
 </div>

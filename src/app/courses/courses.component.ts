@@ -27,7 +27,6 @@ export class CoursesComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.deleteConfirmModal.nativeElement.classList)
     this.deleteModalClassList = this.deleteConfirmModal.nativeElement.classList;
   }
 
@@ -37,6 +36,11 @@ export class CoursesComponent implements OnInit {
 
   addCourse(): void {
     this.courses.push(new Course("new course", []));
+  }
+
+  setCourseName(event: Event, index: number): void {
+    let c = this.courses[index];
+    if(c) c.name = (event.target as HTMLInputElement).value;
   }
 
   deleteModalSetVisible(visible: boolean): void {
@@ -60,8 +64,6 @@ export class CoursesComponent implements OnInit {
   dismissModalYes(): void {
     this.toDelete = undefined;
     this.deleteModalSetVisible(false);
-    console.log(this.toDeleteIndex);
-    console.log(this.courses);
     if(this.toDeleteIndex !== undefined) {
       if(this.courses.length === 0) this.courses = [];
       else this.courses.splice(this.toDeleteIndex, 1);

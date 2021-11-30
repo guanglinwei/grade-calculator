@@ -21,7 +21,7 @@ table {
 .delete-image {
     width: auto;
     height: 20px;
-    padding-left: 16px;
+    padding-left: 12px;
     cursor: pointer;
 
     
@@ -46,15 +46,21 @@ table {
     content: '';
     z-index: -1;
 }
-
-.add-button {
-    width: auto;
-    height: 24px;
-    padding: 0px;
-    cursor: pointer;
+    
+.add-button-container {
+    cursor: pointer; 
     &:hover {
-        filter: invert(78%) sepia(89%) saturate(736%) hue-rotate(56deg) brightness(98%) contrast(87%);
-    }
+        color: #555;
+        img {
+            filter: invert(78%) sepia(89%) saturate(736%) hue-rotate(56deg) brightness(98%) contrast(87%);
+        }
+    }   
+    img {
+        width: auto;
+        height: 24px;
+        padding: 0px;
+        padding-right: 8px;    
+    }   
 }
 
 .no-select {

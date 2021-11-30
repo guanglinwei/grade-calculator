@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '../../models/course';
 import { CoursesService } from '../courses/courses.service';
 
@@ -24,17 +24,24 @@ export class CoursesDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private service: CoursesService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     const rawId = this.route.snapshot.paramMap.get('id');
     let id = 0;
-    if(rawId !== null) id = parseInt(rawId);
+    if(rawId === null) {
+      this.router.navigateByUrl("/error/404");
+      return;
+    }
+    else id = parseInt(rawId);
 
-    // const c = this.service.getCourse(courseName);
-    // TODO: 404 check
     const c = this.service.courses[id];
-    if(!c) throw new Error("Course of id " + rawId + " not found");
+    if(id >= this.service.courses.length || c === undefined) {
+      this.router.navigateByUrl("/error/404"); // throw new Error("Course of id " + rawId + " not found");
+      return;
+    }
+
     this.currentCourse = c;
     this.service.currentCourse = c;
     this.ptsToTarget = this.calculatePtsToTarget(93, 0);

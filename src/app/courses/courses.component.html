@@ -7,13 +7,13 @@
     <div class="modal" #deleteConfirmModal id="deleteConfirmModal" tabindex="-1" role="dialog" aria-hidden="true" aria-describedby="deleteConfirmModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmModalLabel">Are you sure you want to delete {{toDelete || "-"}}?</h5>
-            </div>
-            <div class="modal-footer">
-                <button (click)="dismissModalNo()" type="button" class="btn btn-danger">No</button>
-                <button (click)="dismissModalYes()" type="button" class="btn btn-success">Yes</button>
-            </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmModalLabel">Are you sure you want to delete {{toDelete || "-"}}?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button (click)="dismissModalNo()" type="button" class="btn btn-danger">No</button>
+                    <button (click)="dismissModalYes()" type="button" class="btn btn-success">Yes</button>
+                </div>
             </div>
         </div>
     </div>
@@ -56,8 +56,10 @@
         </div>
     </ng-template>
 
-    <div class="my-3 d-flex align-items-center">
-        <img (click)="addCourse()" src="assets/add.svg" class="add-button"/>
-        <span class="no-select mx-2">Add a new course</span>
+    <div class="col-6 col-sm-8">
+        <div (click)="addCourse()" class="my-3 d-flex align-items-center add-button-container">
+            <img src="assets/add.svg" class="add-button"/>
+            <span class="no-select">Add a new course</span>
+        </div>
     </div>
 </div>

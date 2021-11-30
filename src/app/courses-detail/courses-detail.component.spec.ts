@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from 'src/models/course';
 import { AppComponent } from '../app.component';
 import { AssignmentComponent } from '../assignment/assignment.component';
@@ -14,14 +14,14 @@ describe('CoursesDetailComponent', () => {
   let fixture: ComponentFixture<CoursesDetailComponent>;
   let routeStub: ActivatedRouteStub;
   let serviceStub: Partial<CoursesService>;
+  let router: Router;
 
   beforeEach(async () => {
     serviceStub = {
       courses: [        
         new Course("Course 1", [{name: "a1", earnedPoints: 9, totalPoints: 10}, {name: "a2", earnedPoints: 8, totalPoints: 10}]),
         new Course("Course 2", []),
-      ]
-      
+      ]   
     };
 
     routeStub = new ActivatedRouteStub({id: 0});
@@ -31,19 +31,18 @@ describe('CoursesDetailComponent', () => {
       declarations: [ CoursesDetailComponent, PercentDisplayPipe, AppComponent, AssignmentComponent ],
       providers: [ 
         {provide: CoursesService, useValue: serviceStub},
-        {provide: ActivatedRoute, useValue: routeStub}
+        {provide: ActivatedRoute, useValue: routeStub},
+        {provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate', 'navigateByUrl'])}
       ]
     })
     .compileComponents();
+
+    router = TestBed.inject(Router);
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(CoursesDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should display correct course name', () => {
@@ -71,4 +70,10 @@ describe('CoursesDetailComponent', () => {
     expect(fixture.debugElement.nativeElement.querySelector(".summaryScore").textContent).toBeCloseTo(90);
   });
 
+  it('should redirect to 404 on invalid id', () => {
+    routeStub.setParamMap({id: 999});
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect((router.navigateByUrl as jasmine.Spy).calls.first().args[0]).toContain("404");
+  });
 });

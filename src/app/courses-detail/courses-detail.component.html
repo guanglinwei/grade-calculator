@@ -39,9 +39,9 @@
         <table class="table">
             <thead class="thead-light">
                 <tr>
-                    <th style="width: 60%">Assignment</th>
+                    <th style="width: 50%">Assignment</th>
                     <th style="width: 25%">Score</th>
-                    <th style="width: 15%">% of Grade</th>
+                    <th style="width: 25%">% of Grade</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,9 +52,11 @@
                     [index]="i"
                     (updateCoursesSummary)="updateSummary($event)">
                 </tr>
-                <div class="my-3 d-flex align-items-center">
-                    <img (click)="createAssignment()" src="assets/add.svg" class="add-button"/>
-                    <span class="no-select">Add a new assignment</span>
+                <div class="col-6">
+                    <div (click)="createAssignment()" class="my-2 d-flex align-items-center add-button-container">
+                        <img src="assets/add.svg" class="add-button"/>
+                        <span class="no-select">Add a new assignment</span>
+                    </div>
                 </div>
             </tbody>
         </table>

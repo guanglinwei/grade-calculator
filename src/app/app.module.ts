@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 // import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+// import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +10,7 @@ import { CoursesDetailComponent } from './courses-detail/courses-detail.componen
 import { AssignmentComponent } from './assignment/assignment.component';
 import { CoursesService } from './courses/courses.service';
 import { PercentDisplayPipe } from './shared/percent-display-pipe';
+import { NotFoundComponent } from './notfound/notfound.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PercentDisplayPipe } from './shared/percent-display-pipe';
     CoursesComponent,
     CoursesDetailComponent,
     AssignmentComponent,
-    PercentDisplayPipe
+    PercentDisplayPipe,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

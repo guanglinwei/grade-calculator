@@ -26,13 +26,13 @@ jobs:
         run: npm install
       
       - name: Build
-        run: npm build
+        run: npm run build
 
       - name: Test
-        run: npm test
+        run: npm run test
 
       - name: Deploy to gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run ng -- deploy --base-href=/grade-calculator/ --name="guanglinwei" --email="guanglinwei@gmail.com" --no-silent
+        run: npm run deploy
     

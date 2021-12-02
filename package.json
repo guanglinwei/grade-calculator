@@ -7,7 +7,7 @@
     "build": "ng build --base-href /grade-calculator/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng deploy --base-href=/grade-calculator/"
+    "deploy": "ng deploy --base-href=/grade-calculator/ --name=\"guanglinwei\" --email=\"guanglinwei@gmail.com\" --no-silent"
   },
   "private": true,
   "dependencies": {

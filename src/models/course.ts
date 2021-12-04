@@ -12,20 +12,20 @@ export class Course {
         // this.totalPoints = totalPoints;
         // this.points = points;
         this.assignmentList = assignmentList;
-        if(this.assignmentList.length === 0) {
-            this.points = 0;
-            this.totalPoints = 0;
-        }
-        else {
-            this.points = assignmentList.map(v => v.earnedPoints).reduce((p, c) => p + c);
-            this.totalPoints = assignmentList.map(v => v.totalPoints).reduce((p, c) => p + c);
-        }
+        // if(this.assignmentList.length === 0) {
+        //     this.points = 0;
+        //     this.totalPoints = 0;
+        // }
+        // else {
+            this.points = assignmentList.map(v => v.earnedPoints).reduce((p, c) => p + c, 0);
+            this.totalPoints = assignmentList.map(v => v.totalPoints).reduce((p, c) => p + c, 0);
+        // }
         this.average = this.getAverageDisplay();
     }
 
     recalculateValues(): void {
-        this.points = this.assignmentList.map(v => v.earnedPoints).reduce((p, c) => p + c);
-        this.totalPoints = this.assignmentList.map(v => v.totalPoints).reduce((p, c) => p + c);
+        this.points = this.assignmentList.map(v => v.earnedPoints).reduce((p, c) => p + c, 0);
+        this.totalPoints = this.assignmentList.map(v => v.totalPoints).reduce((p, c) => p + c, 0);
         this.average = this.getAverageDisplay();
     }
 

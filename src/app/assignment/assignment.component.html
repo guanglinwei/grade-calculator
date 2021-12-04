@@ -6,6 +6,7 @@
     <input class="assignment assignFraction form-control"
         value="{{assignment.earnedPoints}}/{{assignment.totalPoints}}"
         (input)="setAssignmentValue($event, assignment)"
+        (focus)="select($event)"
         placeholder="score / total"
         aria-describedby="percentage-addon"/>
     

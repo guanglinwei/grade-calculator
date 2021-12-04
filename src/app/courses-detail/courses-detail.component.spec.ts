@@ -70,6 +70,17 @@ describe('CoursesDetailComponent', () => {
     expect(fixture.debugElement.nativeElement.querySelector(".summaryScore").textContent).toBeCloseTo(90);
   });
 
+  it('should maintain correct points after deleting only assignment', () => {
+    component.currentCourse = new Course("c", [{name: "a", earnedPoints: 3, totalPoints: 4}]);
+    component.currentCourse.recalculateValues();
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.querySelector(".summaryFraction").textContent).toBe("3 / 4");
+    component.currentCourse.removeAssignment(0);
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.querySelector(".summaryFraction").textContent).toBe("0 / 0");
+    expect(fixture.debugElement.nativeElement.querySelector(".summaryScore").textContent).toBeCloseTo(0);
+  });
+
   it('should redirect to 404 on invalid id', () => {
     routeStub.setParamMap({id: 999});
     component.ngOnInit();

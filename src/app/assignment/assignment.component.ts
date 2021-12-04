@@ -25,6 +25,10 @@ export class AssignmentComponent implements OnInit {
     return this.service.currentCourse!;
   }
 
+  select(event: Event): void {
+    (event.target as HTMLInputElement).select();
+  }
+
   setAssignmentValue(event: Event, assignment: Assignment): void {
     const element = event.target as HTMLInputElement;
     const cList = element.classList;

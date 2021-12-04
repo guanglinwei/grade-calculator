@@ -3,6 +3,11 @@
 ## About
 Keep track of your grades and calculate how many points you need to get that A.
 
+## Upcoming features
+
+- [ ] Import grades from Genesis
+- [ ] Integrate with Firebase
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

@@ -9,10 +9,55 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteConfirmModalLabel">Are you sure you want to delete {{toDelete || "-"}}?</h5>
+                    <button type="button" (click)="modalDismiss('delete', false)" class="close btn" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-footer">
-                    <button (click)="dismissModalNo()" type="button" class="btn btn-danger">No</button>
-                    <button (click)="dismissModalYes()" type="button" class="btn btn-success">Yes</button>
+                <div class="modal-footer justify-content-center">
+                    <button (click)="modalDismiss('delete', true)" type="button" class="btn btn-success mx-2">Yes</button>
+                    <button (click)="modalDismiss('delete', false)" type="button" class="btn btn-danger mx-2">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup when importing course -->
+    <div class="modal" #importConfirmModal id="importConfirmModal" tabindex="-1" role="dialog" aria-hidden="true" aria-describedby="importConfirmModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importConfirmModalLabel">Importing from Genesis</h5>
+                    <button type="button" (click)="modalDismiss('import', false)" class="close btn" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Copy and paste the HTML code for an entire course summary page into the text box below to import a course.</p>
+                    <p>Steps:</p>
+                    <ol>
+                        <li>Go to your gradebook and navigate to the summary of the course you wish to import</li>
+                        <li>Copy the page's entire HTML with on of the following methods:
+                            <div class="border rounded px-2">
+                            <ul>
+                                <li><i>Inspect Element (Ctrl+Shift+I)</i></li>
+                                <li>A window should open with the <i>Elements</i> tab selected.</li>
+                                <li>In this window, find a line that says something similar to: <b>&#60;html style="..."&#62;</b></li>
+                                <li>Right click this line and click on <i>Copy > Copy element</i></li>
+                            </ul>
+                            <b>OR</b>
+                            <ul>
+                                <li><i>View Page HTML (Ctrl+U)</i></li>
+                                <li><i>Select All (Ctrl+A)</i></li>
+                                <li><i>Copy (Ctrl+C)</i></li>
+                            </ul>
+                            </div>
+                        </li>
+                        <li>Once the HTML is copied to your clipboard, click the button below.</li>
+                    </ol>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <div #importErrorMessage class="bg-danger text-light rounded px-2" aria-hidden="true" style="visibility: hidden;">An error occurred. Please check your clipboard contents.</div>
+                    <button (click)="modalDismiss('import', true)" type="button" class="btn btn-primary">Import from clipboard</button>
                 </div>
             </div>
         </div>
@@ -40,7 +85,7 @@
                     <td class="col-2"></td>
                     <td class="col-6 align-items-center">
                         <span class="courseAverage">{{course.average}}</span> <span class="coursePoints">{{course.points}}/{{course.totalPoints}}</span>
-                        <button (click)="deleteCourse(i); $event.stopPropagation();" class="float-end delete-button" style="border:0; background:transparent;">
+                        <button (click)="modalActive('delete', i); $event.stopPropagation();" class="float-end delete-button" style="border:0; background:transparent;">
                             <img src="assets/delete.svg" class="delete-image float-end"/>
                         </button>
                     </td>
@@ -60,6 +105,13 @@
         <div (click)="addCourse()" class="my-3 d-flex align-items-center add-button-container">
             <img src="assets/add.svg" class="add-button"/>
             <span class="no-select">Add a new course</span>
+        </div>
+    </div>
+
+    <div class="col-6 col-sm-8">
+        <div (click)="modalActive('import')" class="my-3 d-flex align-items-center import-button-container">
+            <img src="assets/import.svg" class="import-button"/>
+            <span class="no-select">Import course from Genesis</span>
         </div>
     </div>
 </div>

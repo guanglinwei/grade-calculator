@@ -21,7 +21,7 @@ describe('CoursesComponent', () => {
       courses: c,
       getCourses: () => {
         return c;
-      }
+      },
     };
 
     await TestBed.configureTestingModule({

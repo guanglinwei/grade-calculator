@@ -38,7 +38,7 @@ table {
     display: block;
 }
 
-#deleteConfirmModal:after {
+.modal:after {
     // darken background when visible
     position: absolute;
     top: 0; bottom: 0; right: 0; left: 0;
@@ -61,6 +61,22 @@ table {
         padding: 0px;
         padding-right: 8px;    
     }   
+}
+
+.import-button-container {
+    cursor: pointer;
+    &:hover {
+        color: #555;
+        img {
+            filter: invert(26%) sepia(88%) saturate(1929%) hue-rotate(217deg) brightness(88%) contrast(93%);
+        }
+    }
+    img {
+        width: auto;
+        height: 24px;
+        padding: 0px;
+        padding-right: 8px;
+    }
 }
 
 .no-select {

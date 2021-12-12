@@ -1,4 +1,4 @@
-import { Component, ElementRef, isDevMode, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, isDevMode, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Course } from '../../models/course';
 import { CoursesService } from './courses.service';
@@ -15,6 +15,11 @@ export class CoursesComponent implements OnInit {
   @ViewChild('importConfirmModal') importConfirmModal!: ElementRef;
 
   @ViewChild('importErrorMessage') importErrorMessage!: ElementRef;
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if(event.key === 'Enter') this.modalDismiss('delete', true);
+  }
 
   courses: Course[] = [];
 

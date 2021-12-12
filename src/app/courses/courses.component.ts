@@ -115,12 +115,15 @@ export class CoursesComponent implements OnInit {
         if(doImport) {
           navigator.clipboard.readText()
             .then((result) => {
+              // display loading thing?
               this._html = result;
-              this.importCoursesFromGenesis().then((success) => {
-                if(success) this.modalInactive(modalName);
-                else {
-                  this.setModalVisibility(this.importErrorMessage, true);
-                }
+              this.importCoursesFromGenesis().then(() => {
+                // succeed, hide modal
+                this.modalInactive(modalName);
+              }, (errorMessage) => {
+                // fail, error message
+                this.importErrorMessage.nativeElement.textContent = errorMessage || "An error occurred. Please check your clipboard contents.";
+                this.setModalVisibility(this.importErrorMessage, true);
               });
             });   
         }
@@ -131,22 +134,24 @@ export class CoursesComponent implements OnInit {
     }
   }
 
-  async importCoursesFromGenesis(): Promise<boolean> {
-    return new Promise((res) => {
-      this.coursesService.importCourseFromHTML('genesis', this._html, (e: unknown) => {
-        if(isDevMode()) {
-          if(typeof e === "string") {
-            console.error(e);
-          }
-          else if (e instanceof Error) {
-            console.error(e.message);
-          }
+  async importCoursesFromGenesis(): Promise<void> {
+    return new Promise((res, rej) => {
+      let eMessage = undefined;
+      if(!this.coursesService.importCourseFromHTML('genesis', this._html, (e: unknown) => {
+        if(typeof e === "string") {
+          eMessage = e;
+          if(isDevMode()) console.error(e);
         }
-        
-
-        res(false);
-      });
-      res(true);
+        else if (e instanceof Error) {
+          eMessage = e.message;
+          if(isDevMode()) console.error(e.message);
+        }   
+      })) {
+        let s = eMessage || '';
+        if(s.charAt(0) === '!') rej(s.slice(1));
+        else rej(undefined);
+      }
+      else res();
     }); 
   }
 

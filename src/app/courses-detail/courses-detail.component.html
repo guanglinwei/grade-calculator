@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title" id="pts-to-target">{{ptsToTarget}}</h4>
-                    <span class="card-text">Points required for average of 
+                    <span class="card-text">Points to earn for average of 
                         <input class="form-control inline-input" id="to-target-score" (input)="updateSummaryValues($event)" placeholder="93"/>
                          if missing
                         <input class="form-control inline-input" id="to-target-missing" (input)="updateSummaryValues($event)" placeholder="0"/>
@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title" id="pts-to-target-given-remaining">{{ptsToTargetGivenRemaining}}</h4>
-                    <span class="card-text">Points required for average of 
+                    <span class="card-text">Points to earn for average of 
                         <input class="form-control inline-input" id="to-target-given-score" (input)="updateSummaryValues($event)" placeholder="93"/>
                          if 
                         <input class="form-control inline-input" id="to-target-given-remaining" (input)="updateSummaryValues($event)" placeholder="100"/>

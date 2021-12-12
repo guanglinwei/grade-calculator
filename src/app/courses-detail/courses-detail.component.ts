@@ -52,7 +52,7 @@ export class CoursesDetailComponent implements OnInit {
     const course = this.currentCourse;
     if(target > 1) target /= 100;
     const ans = ((course.points - target * (course.totalPoints + loss)) / (target - 1 + Number.EPSILON));
-    return ans < 0 ? "Invalid input" : ans.toFixed(2).toString();
+    return ans < 0 ? "0" : ans.toFixed(2).toString();
   }
 
   calculatePtsToTargetGivenRemaining(target: number, remaining: number): string {

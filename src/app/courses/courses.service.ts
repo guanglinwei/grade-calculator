@@ -14,6 +14,7 @@ export class CoursesService {
     constructor() {}
 
     getCourses(): Course[] {
+        this.courses.forEach(c => c.recalculateValues());
         return this.courses;
     }
 

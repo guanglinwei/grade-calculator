@@ -5,7 +5,7 @@ Keep track of your grades and calculate how many points you need to get that A.
 
 ## Upcoming features
 
-- [ ] Import grades from Genesis
+- [x] Import grades from Genesis
 - [ ] Integrate with Firebase
 
 ## Development server

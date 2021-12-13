@@ -21,6 +21,24 @@
         </div>
     </div>
 
+    <!-- Popup when deleting all courses -->
+    <div class="modal" #deleteAllConfirmModal id="deleteAllConfirmModal" tabindex="-1" role="dialog" aria-hidden="true" aria-describedby="deleteAllConfirmModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAllConfirmModalLabel">Are you sure you want to delete all courses?</h5>
+                    <button type="button" (click)="modalDismiss('deleteAll', false)" class="close btn" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button (click)="modalDismiss('deleteAll', true)" type="button" class="btn btn-success mx-2">Yes</button>
+                    <button (click)="modalDismiss('deleteAll', false)" type="button" class="btn btn-danger mx-2">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Popup when importing course -->
     <div class="modal" #importConfirmModal id="importConfirmModal" tabindex="-1" role="dialog" aria-hidden="true" aria-describedby="importConfirmModalLabel">
         <div class="modal-dialog" role="document">
@@ -164,6 +182,13 @@
         <div (click)="modalActive('importjson')" class="my-3 d-flex align-items-center import-button-container">
             <img src="assets/import.svg" class="import-button"/>
             <span class="no-select">Import courses from JSON</span>
+        </div>
+    </div>
+
+    <div class="col-6 col-sm-8">
+        <div (click)="modalActive('deleteAll')" class="my-3 d-flex align-items-center delete-button-container">
+            <img src="assets/delete.svg" class="delete-button"/>
+            <span class="no-select">Clear all courses</span>
         </div>
     </div>
 </div>

@@ -14,6 +14,7 @@ export class CoursesComponent implements OnInit {
   @ViewChild('deleteConfirmModal') deleteConfirmModal!: ElementRef;
   @ViewChild('importConfirmModal') importConfirmModal!: ElementRef;
   @ViewChild('importJsonModal') importJsonModal!: ElementRef;
+  @ViewChild('deleteAllConfirmModal') deleteAllConfirmModal!: ElementRef;
 
   @ViewChild('importGenesisErrorMessage') importGenesisErrorMessage!: ElementRef;
   @ViewChild('importJsonErrorMessage') importJsonErrorMessage!: ElementRef;
@@ -84,6 +85,10 @@ export class CoursesComponent implements OnInit {
         this.setModalVisibility(this.importJsonErrorMessage, false);
         break;
 
+      case 'deleteAll':
+        this.setModalVisibility(this.deleteAllConfirmModal, true);
+        break;
+
       default:
         break;
     }
@@ -103,6 +108,10 @@ export class CoursesComponent implements OnInit {
 
       case 'importjson':
         this.setModalVisibility(this.importJsonModal, false);
+        break;
+
+      case 'deleteAll':
+        this.setModalVisibility(this.deleteAllConfirmModal, false);
         break;
 
       default:
@@ -145,11 +154,18 @@ export class CoursesComponent implements OnInit {
         }
         break;
 
-      case 'importjson':
-        this.modalInactive('importjson');
+      case 'deleteAll':
+        if(typeof params[0] !== 'boolean') throw new Error(`deleteAllModal activation requires 1 parameter of type boolean, got ${typeof params[0]}`);
+
+        const doDeleteAll = params[0];
+        if(doDeleteAll) {
+          this.coursesService.courses.splice(0);
+        }
+        this.modalInactive('deleteAll');
         break;
 
       default:
+        this.modalInactive(modalName, ...params);
         break;
     }
   }
@@ -197,9 +213,26 @@ export class CoursesComponent implements OnInit {
     else {
       file.text().then((v) => {
         this.coursesService.importDataFromJson(v).then(() => {
+          // get rid of file
+          try {
+            el.value = '';
+            if(el.value) {
+              el.type = 'text';
+              el.type = 'file;'
+            }
+          }
+          catch {}
           this.setModalVisibility(this.importJsonModal, false);
         }, () => {
           this.importJsonErrorMessage.nativeElement.textContent = "An error occurred when parsing this file. Are you sure it was exported by this site?"
+          try {
+            el.value = '';
+            if(el.value) {
+              el.type = 'text';
+              el.type = 'file;'
+            }
+          }
+          catch {}
           this.setModalVisibility(this.importJsonErrorMessage, true);
         });
       });

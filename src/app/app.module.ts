@@ -28,7 +28,7 @@ import { NotFoundComponent } from './notfound/notfound.component';
   ],
   providers: [{
     provide: APP_INITIALIZER,
-    useFactory: (s: CoursesService) => () => s.importDataFromJson(),
+    useFactory: (s: CoursesService) => () => s.importDataFromJson(localStorage.getItem('gradeData') || '{}'),
     deps: [CoursesService],
     multi: true,
   }],

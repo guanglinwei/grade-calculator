@@ -24,21 +24,31 @@ export class CoursesService {
 
     exportDataAsJson(): void {
         localStorage.setItem("gradeData", JSON.stringify({
-            //placeholder
-            name: "Guang-Lin",
             courses: this.courses,
         }));
     }
 
-    importDataFromJson(): Promise<any> {
-        return new Promise((resolve) => {
+    importDataFromJson(jsonStr: string): Promise<void> {
+        return new Promise((resolve, reject) => {
             // console.log(localStorage.getItem("gradeData"));
-            const json = JSON.parse(localStorage.getItem("gradeData") || "{}").courses;
-            if(json) for(const v of json) {
-                this.courses.push(new Course(v.name, v.assignmentList));
+            let json;
+            try {
+                json = JSON.parse(jsonStr).courses;
             }
-            // console.log(this.courses);
-            resolve(undefined);
+            catch {
+                reject();
+                return;
+            }
+
+            if(json) {
+                for(const v of json) {
+                    this.courses.push(new Course(v.name, v.assignmentList));
+                }
+                resolve();
+            }
+            else {
+                reject();
+            }
         });
         
     }

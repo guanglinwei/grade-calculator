@@ -71,12 +71,33 @@
                     </ol>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <div #importErrorMessage class="bg-danger text-light rounded px-2" aria-hidden="true" style="visibility: hidden;">An error occurred. Please check your clipboard contents.</div>
+                    <div #importGenesisErrorMessage class="bg-danger text-light rounded px-2" aria-hidden="true" style="visibility: hidden;">An error occurred. Please check your clipboard contents.</div>
                     <button (click)="modalDismiss('import', true)" type="button" class="btn btn-primary">Import from clipboard</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal" #importJsonModal id="importJsonModal" tabindex="-1" role="dialog" aria-hidden="true" aria-describedby="importJsonModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importJsonModalLabel">Import courses from JSON</h5>
+                    <button type="button" (click)="modalDismiss('importjson', false)" class="close btn" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Import courses that were exported by this site.</p>
+                    <input type="file" id="json-upload" (change)="handleFileInput($event)" aria-hidden="true">
+                    <!-- <label for="json-upload" class="no-select">Import courses from JSON</label> -->
+                    <div #importJsonErrorMessage class="bg-danger text-light rounded px-2 my-2" aria-hidden="true" style="visibility: hidden;">The file provided is invalid. It must be a ".json" file.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <div *ngIf="courses.length > 0; else elseBlock" class="row">
         <table class="table table-hover">
@@ -127,6 +148,22 @@
         <div (click)="modalActive('import')" class="my-3 d-flex align-items-center import-button-container">
             <img src="assets/import.svg" class="import-button"/>
             <span class="no-select">Import course from Genesis</span>
+        </div>
+    </div>
+
+    <div class="col-6 col-sm-8">
+        <a (click)="exportToJson()">
+            <div class="my-3 d-flex align-items-center export-button-container">
+                <img src="assets/download.svg" class="export-button"/>
+                <span class="no-select">Export courses to JSON</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-6 col-sm-8">
+        <div (click)="modalActive('importjson')" class="my-3 d-flex align-items-center import-button-container">
+            <img src="assets/import.svg" class="import-button"/>
+            <span class="no-select">Import courses from JSON</span>
         </div>
     </div>
 </div>

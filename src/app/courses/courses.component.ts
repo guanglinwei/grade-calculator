@@ -13,8 +13,10 @@ import { CoursesService } from './courses.service';
 export class CoursesComponent implements OnInit {
   @ViewChild('deleteConfirmModal') deleteConfirmModal!: ElementRef;
   @ViewChild('importConfirmModal') importConfirmModal!: ElementRef;
+  @ViewChild('importJsonModal') importJsonModal!: ElementRef;
 
-  @ViewChild('importErrorMessage') importErrorMessage!: ElementRef;
+  @ViewChild('importGenesisErrorMessage') importGenesisErrorMessage!: ElementRef;
+  @ViewChild('importJsonErrorMessage') importJsonErrorMessage!: ElementRef;
 
   @HostListener('document:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -74,7 +76,12 @@ export class CoursesComponent implements OnInit {
 
       case 'import':
         this.setModalVisibility(this.importConfirmModal, true);
-        this.setModalVisibility(this.importErrorMessage, false);
+        this.setModalVisibility(this.importGenesisErrorMessage, false);
+        break;
+
+      case 'importjson':
+        this.setModalVisibility(this.importJsonModal, true);
+        this.setModalVisibility(this.importJsonErrorMessage, false);
         break;
 
       default:
@@ -92,6 +99,10 @@ export class CoursesComponent implements OnInit {
 
       case 'import':
         this.setModalVisibility(this.importConfirmModal, false);
+        break;
+
+      case 'importjson':
+        this.setModalVisibility(this.importJsonModal, false);
         break;
 
       default:
@@ -114,7 +125,7 @@ export class CoursesComponent implements OnInit {
         break;
 
       case 'import':
-        if(typeof params[0] !== 'boolean') throw new Error(`deleteModal activation requires 1 parameter of type boolean, got ${typeof params[0]}`);
+        if(typeof params[0] !== 'boolean') throw new Error(`importModal activation requires 1 parameter of type boolean, got ${typeof params[0]}`);
 
         const doImport = params[0];
         if(doImport) {
@@ -127,11 +138,15 @@ export class CoursesComponent implements OnInit {
                 this.modalInactive(modalName);
               }, (errorMessage) => {
                 // fail, error message
-                this.importErrorMessage.nativeElement.textContent = errorMessage || "An error occurred. Please check your clipboard contents.";
-                this.setModalVisibility(this.importErrorMessage, true);
+                this.importGenesisErrorMessage.nativeElement.textContent = errorMessage || "An error occurred. Please check your clipboard contents.";
+                this.setModalVisibility(this.importGenesisErrorMessage, true);
               });
             });   
         }
+        break;
+
+      case 'importjson':
+        this.modalInactive('importjson');
         break;
 
       default:
@@ -162,5 +177,32 @@ export class CoursesComponent implements OnInit {
 
   setHtmlValue(event: Event): void {
     this._html = (event.target as HTMLInputElement).value;
+  }
+
+  exportToJson(): void {
+    const element = document.createElement("a");
+    element.setAttribute('href', `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify({courses: this.coursesService.getCourses()}))}`);
+    element.setAttribute('download', "gradesData.json");
+    element.click();
+    element.remove();
+  }
+
+  handleFileInput(event: Event): void {
+    const el = (event.target as HTMLInputElement);
+    const file = el.files?.item(0);
+    if(!file || !file.type.includes('json')) {
+      this.importJsonErrorMessage.nativeElement.textContent = `File must be of type .json`
+      this.setModalVisibility(this.importJsonErrorMessage, true);
+    }
+    else {
+      file.text().then((v) => {
+        this.coursesService.importDataFromJson(v).then(() => {
+          this.setModalVisibility(this.importJsonModal, false);
+        }, () => {
+          this.importJsonErrorMessage.nativeElement.textContent = "An error occurred when parsing this file. Are you sure it was exported by this site?"
+          this.setModalVisibility(this.importJsonErrorMessage, true);
+        });
+      });
+    }
   }
 }

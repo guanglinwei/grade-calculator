@@ -79,6 +79,22 @@ table {
     }
 }
 
+.export-button-container {
+    cursor: pointer;
+    &:hover {
+        color: #555;
+        img {
+            filter: invert(26%) sepia(88%) saturate(1929%) hue-rotate(217deg) brightness(88%) contrast(93%);
+        }
+    }
+    img {
+        width: auto;
+        height: 24px;
+        padding: 0px;
+        padding-right: 8px;
+    }
+}
+
 .no-select {
     -webkit-touch-callout: none;
     -webkit-user-select: none;

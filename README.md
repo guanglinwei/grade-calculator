@@ -1,5 +1,8 @@
 # GradeCalculator
 
+## NOTE:
+This website is now broken for some reason. The main page no longer loads
+
 ## About
 Keep track of your grades and calculate how many points you need to get that A.
 

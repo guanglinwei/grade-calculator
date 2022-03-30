@@ -23,7 +23,9 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title" id="pts-to-target-given-remaining">{{ptsToTargetGivenRemaining}}</h4>
+                    <h4 class="card-title d-inline-block" id="pts-to-target-given-remaining">{{ptsToTargetGivenRemaining}}</h4>
+                    <span class="summaryFraction"> = {{ptsToTargetGivenRemaining | percentDisplay: (toTargetGivenRemaining || 100)}}%</span>
+                    <br/>
                     <span class="card-text">Points to earn for average of 
                         <input class="form-control inline-input" id="to-target-given-score" (input)="updateSummaryValues($event)" placeholder="93"/>
                          if 

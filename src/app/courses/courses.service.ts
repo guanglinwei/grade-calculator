@@ -36,7 +36,7 @@ export class CoursesService {
                 json = JSON.parse(jsonStr).courses;
             }
             catch {
-                reject();
+                reject("Invalid JSON file");
                 return;
             }
 
@@ -47,7 +47,8 @@ export class CoursesService {
                 resolve();
             }
             else {
-                reject();
+                this.courses = [];
+                reject("Blank JSON file");
             }
         });
         

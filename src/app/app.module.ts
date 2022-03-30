@@ -28,7 +28,9 @@ import { NotFoundComponent } from './notfound/notfound.component';
   ],
   providers: [{
     provide: APP_INITIALIZER,
-    useFactory: (s: CoursesService) => () => s.importDataFromJson(localStorage.getItem('gradeData') || '{}'),
+    useFactory: (s: CoursesService) => () => {
+      s.importDataFromJson(localStorage.getItem('gradeData') || '{"courses":[]}'); //.then(null, rej => console.log(rej));
+    },
     deps: [CoursesService],
     multi: true,
   }],

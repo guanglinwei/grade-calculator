@@ -51,7 +51,7 @@ describe('CoursesService', () => {
   let service: CoursesService;
   beforeEach(() => { service = new CoursesService(); });
 
-  it('should import genesis grades properly', () => {
+  it('should import genesis grades properly html', () => {
     const h = `
     <html>
       <table class='list'>
@@ -89,21 +89,56 @@ describe('CoursesService', () => {
     </html>
     `;
 
-    service.importCourseFromHTML('genesis', h);
+    service.importCourseFromHTML('genesishtml', h);
     expect(service.courses[0].average).withContext("correct average").toBeCloseTo(64);
     expect(service.courses[0].getAssignmentList().map((v) => v.name).join('')).withContext("correct names").toBe("assign1assign2assign3assign4assign5");
     expect(service.courses[0].getAssignmentList().map(v => v.earnedPoints).join('')).withContext("correct earned points").toBe("34900");
     expect(service.courses[0].getAssignmentList().map(v => v.totalPoints).join('')).withContext("correct total points").toBe("351205");
   });
 
+  it('should import genesis grades properly text', () => {
+    const t = `WEEKLY SUMMARY LIST ASSIGNMENTS COURSE SUMMARY
+    Course Summary for 
+    COURSE
+    Marking Period 2 Grade: 99.99%    Change Marking Period
+    Assignments    Marking Period 2   
+    MP	DUE	TEACHER	CATEGORY	ASSIGNMENT	GRADE Percentage is rounded to Hundredths Place	COMMENT	PREV	DOCS
+    MP2	
+    Tue
+    5/3
+    last, first	Projects	A	
+    Assignment Pts: 50
+    Exempt
+    MP2	
+    Mon
+    3/28
+    last, first	Homework	B	50 / 50
+    100.00%
+    MP2	
+    Mon
+    3/28
+    last, first	Homework	C	25 / 50
+    100.00%
+
+    * Assignments graded as EX (Exempt) or ABS (Absent) do not impact a student's grade.
+    * Assignments graded as M (Missing) counts as 0.0% and INC (Incomplete) counts as 0.0%.
+    `
+
+    service.importCourseFromHTML('genesis', t);
+    expect(service.courses[0].average).withContext("correct average").toBeCloseTo(75);
+    expect(service.courses[0].getAssignmentList().map((v) => v.name).join('')).withContext("correct names").toBe("ABC");
+    expect(service.courses[0].getAssignmentList().map(v => v.earnedPoints).join('')).withContext("correct earned points").toBe("05025");
+    expect(service.courses[0].getAssignmentList().map(v => v.totalPoints).join('')).withContext("correct total points").toBe("05050");
+  });
+
   it('should display error when invalid html', () => {
     const h1 = `<html><div></div> </html>`;
     let res;
-    service.importCourseFromHTML('genesis', h1, (e) => res = (e instanceof Error) ? e.message : e);
+    service.importCourseFromHTML('genesishtml', h1, (e) => res = (e instanceof Error) ? e.message : e);
     expect(res).withContext("no table").toBeTruthy();
 
     const h2 = `a`;
-    service.importCourseFromHTML('genesis', h2, (e) => res = (e instanceof Error) ? e.message : e);
+    service.importCourseFromHTML('genesishtml', h2, (e) => res = (e instanceof Error) ? e.message : e);
     expect(res).withContext("not html").toBeTruthy();
 
     const h3 = `
@@ -124,7 +159,7 @@ describe('CoursesService', () => {
       </table>
     </html>
     `;
-    service.importCourseFromHTML('genesis', h3, (e) => res = (e instanceof Error) ? e.message : e);
+    service.importCourseFromHTML('genesishtml', h3, (e) => res = (e instanceof Error) ? e.message : e);
     expect(res).withContext("letter grades not supported").toContain("letter grades")
   });
 });

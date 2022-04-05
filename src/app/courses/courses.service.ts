@@ -53,11 +53,65 @@ export class CoursesService {
         });
         
     }
+
+    scoreToPoints(score: string | undefined, rawScore: string | undefined = undefined): number[] {
+        let earnedPoints = 0;
+        let totalPoints = 0;
+        if(rawScore === undefined) rawScore = score;
+        // matches: num / num num%
+        // ex: 95 / 100 95.00%
+        if(score) {
+            // just the fraction part (95 / 100)
+            [earnedPoints, totalPoints] = score.split('/').map(v => parseFloat(v));
+        }
+        // if a score is not provided (exempt, absent, incomplete, missing, or letter grades)
+        else {
+            const s = rawScore?.toLowerCase() || '';
+            if(s.includes("exempt") || s.includes("absent")) [earnedPoints, totalPoints] = [0, 0];
+            else if(s.includes("missing") || s.includes("incomplete")) {
+                const t = /assignment pts:\s*([0-9]+)/.exec(s);
+                [earnedPoints, totalPoints] = [0, t ? parseFloat(t[1]) : 0];
+            }
+            else {
+                console.error("There is an issue with the following score: \n" + rawScore?.trim());
+                throw new Error("!Courses with letter grades cannot be imported.");
+            }
+        }
+
+        return [earnedPoints, totalPoints];
+    }
     // TODO: deal with exempt/absent/missing/incomplete (can be dealt with), weighted/letter grades (error, add message to modal explaining),  etc...
+    // TODO: import from ctrl+a, ctrl+c
     importCourseFromHTML(type: string, html: string, onErrorCallback: (e: unknown) => any = () => {}): boolean {
         try {
             switch(type) {
-                case 'genesis':
+                // Ctrl + A, Ctrl + C for page
+                case 'genesis': {
+                    const assignInfoRegex = /([\S ]*)\s*(Recently\s*Updated)?\s*(([0-9]*[.])?[0-9]+\s+\/\s+([0-9]*[.])?[0-9]+|assignment\s*pts:\s*\d+\s*(exempt|absent|missing|incomplete))/gi; //([\S ]*)\s*(Recently\s*Updated)?\s*(\d+\s+\/\s+\d+)/g;
+                    const assignList = [];
+                    // const assignMatch = assignInfoRegex.exec(html);
+                    let assignment = undefined;
+                    const cname = /course summary for \s*(.*)\s*marking period/gi.exec(html)?.[1];
+
+                    while(assignment = assignInfoRegex.exec(html)) {
+                        const name = assignment[1];
+                        const rawScore = assignment[3]
+                        // const [earnedPoints, totalPoints] = rawScore.split('/').map(v => parseFloat(v) || 0);
+                        const [earnedPoints, totalPoints] = this.scoreToPoints(rawScore.match(/([0-9]*[.])?[0-9]+\s*\/\s*([0-9]*[.])?[0-9]+/)?.[0], rawScore);
+                        assignList.push({ name: name, earnedPoints: earnedPoints, totalPoints: totalPoints });
+                    }
+                    if(assignList.length < 1) {
+                        throw new Error("!An error occurred. Please check your clipboard contents.");
+                    }
+                    else {
+                        const res = new Course(cname || "", assignList);
+                        // console.log(res);
+                        this.courses.push(res);
+                    }
+                    break;
+                }
+
+                case 'genesishtml': {
                     const parser = new DOMParser();
                     const obj = parser.parseFromString(html, 'text/html');
                     const table = obj.getElementsByClassName("list")[0];
@@ -104,24 +158,9 @@ export class CoursesService {
                         }
                         // matches: num / num num%
                         // ex: 95 / 100 95.00%
+                        // [earnedPoints, totalPoints] = this.matchScore(rawScore);
                         const scoreMatch = /(([0-9]*[.])?[0-9]+\s*\/\s*([0-9]*[.])?[0-9]+)\s*([0-9]*[.])?[0-9]+\s*%/.exec(rawScore || '');
-                        if(scoreMatch) {
-                            // just the fraction part (95 / 100)
-                            [earnedPoints, totalPoints] = scoreMatch[1].split('/').map(v => parseFloat(v));
-                        }
-                        // if a score is not provided (exempt, absent, incomplete, missing, or letter grades)
-                        else {
-                            const s = rawScore?.toLowerCase() || '';
-                            if(s.includes("exempt") || s.includes("absent")) [earnedPoints, totalPoints] = [0, 0];
-                            else if(s.includes("missing") || s.includes("incomplete")) {
-                                const t = /assignment pts:\s*([0-9]+)/.exec(s);
-                                [earnedPoints, totalPoints] = [0, t ? parseFloat(t[1]) : 0];
-                            }
-                            else {
-                                console.error("There is an issue with the following score: \n" + rawScore?.trim());
-                                throw new Error("!Courses with letter grades cannot be imported.");
-                            }
-                        }
+                        [earnedPoints, totalPoints] = this.scoreToPoints(scoreMatch?.[1], rawScore);
 
                         assignList.push({ name: name, earnedPoints: earnedPoints, totalPoints: totalPoints });
                     }
@@ -141,6 +180,7 @@ export class CoursesService {
                     // console.log(res);
                     this.courses.push(res);
                     break;
+                }
                 default:
                     break;
             }

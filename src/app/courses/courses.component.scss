@@ -118,7 +118,9 @@ table {
 .handle {
     img {
         width: auto;
-        height: 16px;
+        height: 24px;
+        padding-left: 2px;
+        cursor: move;
     }
 }
 

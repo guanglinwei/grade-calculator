@@ -11,7 +11,9 @@
         <div class="card-group summaryBody">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title" id="pts-to-target">{{ptsToTarget}}</h4>
+                    <h4 class="card-title d-inline-block" id="pts-to-target">{{ptsToTarget}}</h4>
+                    <span class="summaryFraction"> / {{(_f(ptsToTarget) + toTargetMissing) || 0 | number: '1.00'}} = {{_f(ptsToTarget) | percentDisplay: (_f(ptsToTarget) + toTargetMissing) || 100}}%</span>
+                    <br/>
                     <span class="card-text">Points to earn for average of 
                         <input class="form-control inline-input" id="to-target-score" (input)="updateSummaryValues($event)" placeholder="93"/>
                          if missing

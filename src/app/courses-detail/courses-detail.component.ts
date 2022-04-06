@@ -49,6 +49,8 @@ export class CoursesDetailComponent implements OnInit {
     this.ptsToTargetGivenRemaining = this.calculatePtsToTargetGivenRemaining(93, 100);
   }
 
+  _f(s: string) { return parseFloat(s) || 0; }
+
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.currentCourse.getAssignmentList(), event.previousIndex, event.currentIndex);
   }

@@ -3,7 +3,16 @@
     &.assignScore {
         color: #555;
         font-size: medium;
+        width: auto;
     }
+    &.assignName {
+        width: auto;
+        display: inline-block;
+    }
+}
+
+.assign-fraction {
+    width: auto;
 }
 
 :host {
@@ -23,5 +32,12 @@
     &:hover {
         // ~#FA3333
         filter: invert(36%) sepia(75%) saturate(4616%) hue-rotate(343deg) brightness(102%) contrast(97%); 
+    }
+}
+
+.handle {
+    img {
+        width: auto;
+        height: 16px;
     }
 }

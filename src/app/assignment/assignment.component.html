@@ -1,14 +1,19 @@
-<td><input class="assignment assignName form-control" [value]="assignment.name" (input)="setAssignmentValue($event, assignment)"/></td>
-<td class="input-group">
-    <div class="input-group-prepend">
-        <span class="assignment assignScore input-group-text" id="percentage-addon">{{assignment.earnedPoints | percentDisplay: assignment.totalPoints}}</span>
+<td>
+    <ng-content></ng-content>
+    <input class="assignment assignName form-control" [value]="assignment.name" (input)="setAssignmentValue($event, assignment)"/>
+</td>
+<td>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="assignment assignScore input-group-text" id="percentage-addon">{{assignment.earnedPoints | percentDisplay: assignment.totalPoints}}</span>
+        </div>
+        <input class="assignment assignFraction form-control"
+            value="{{assignment.earnedPoints}}/{{assignment.totalPoints}}"
+            (input)="setAssignmentValue($event, assignment)"
+            (focus)="select($event)"
+            placeholder="score / total"
+            aria-describedby="percentage-addon"/>
     </div>
-    <input class="assignment assignFraction form-control"
-        value="{{assignment.earnedPoints}}/{{assignment.totalPoints}}"
-        (input)="setAssignmentValue($event, assignment)"
-        (focus)="select($event)"
-        placeholder="score / total"
-        aria-describedby="percentage-addon"/>
     
 </td>
 <td>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '../../models/course';
 import { CoursesService } from '../courses/courses.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 
 @Component({
   selector: 'app-courses-detail',
@@ -46,6 +47,10 @@ export class CoursesDetailComponent implements OnInit {
     this.service.currentCourse = c;
     this.ptsToTarget = this.calculatePtsToTarget(93, 0);
     this.ptsToTargetGivenRemaining = this.calculatePtsToTargetGivenRemaining(93, 100);
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.currentCourse.getAssignmentList(), event.previousIndex, event.currentIndex);
   }
 
   calculatePtsToTarget(target: number, loss: number = 0): string {

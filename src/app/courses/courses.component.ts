@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, isDevMode, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { Course } from '../../models/course';
 import { CoursesService } from './courses.service';
 
@@ -37,6 +38,10 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.courses = this.coursesService.getCourses();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.courses, event.previousIndex, event.currentIndex);
   }
 
   // ngAfterViewInit(): void {

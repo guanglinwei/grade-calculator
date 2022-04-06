@@ -1,5 +1,7 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
+import { DragDropModule } from '@angular/cdk/drag-drop';
 // import { FormsModule } from '@angular/forms';
 // import { RouterModule, Routes } from '@angular/router';
 
@@ -24,7 +26,8 @@ import { NotFoundComponent } from './notfound/notfound.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DragDropModule
   ],
   providers: [{
     provide: APP_INITIALIZER,

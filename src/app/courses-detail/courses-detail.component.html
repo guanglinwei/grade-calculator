@@ -38,7 +38,7 @@
     </div>
 
     <div class="row my-3">
-        <table class="table">
+        <table cdkDropList (cdkDropListDropped)="drop($event)" class="table assignment-table">
             <thead class="thead-light">
                 <tr>
                     <th style="width: 50%">Assignment</th>
@@ -47,12 +47,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let assignment of currentCourse.getAssignmentList(); let i = index" [attr.data-index]="i"
-                    class="deletable" 
+                <tr cdkDrag *ngFor="let assignment of currentCourse.getAssignmentList(); let i = index" [attr.data-index]="i"
+                    class="deletable assignment" 
                     app-assignment 
                     [assignment]="assignment" 
                     [index]="i"
                     (updateCoursesSummary)="updateSummary($event)">
+                    <span cdkDragHandle class="handle"><img src="assets/drag.svg"></span>
                 </tr>
                 <div class="col-6">
                     <div (click)="createAssignment()" class="my-2 d-flex align-items-center add-button-container">
